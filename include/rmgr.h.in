@@ -1,0 +1,20 @@
+#ifndef RESOURCE_MANAGER_H
+#define RESOURCE_MANAGER_H
+#include <string>
+
+namespace resource
+{
+	std::string GetResourcePath()
+	{
+		return @RESOURCE_PATH@;
+	}
+	
+	std::string GetScriptPath()
+	{
+		return @SCRIPT_PATH@;
+	}
+}
+
+#define _S(filename) std::string(resource::GetScriptPath() + std::string(filename) + std::string(".nut")).c_str()
+
+#endif // RESOURCE_MANAGER_H
