@@ -1,7 +1,7 @@
 #include "engine.h"
 #include "Tiny2D.h"
 #include  "rmgr.h"
-#include "squall_vmstd.hpp"
+#include <simplesquirrel.hpp>
 
 using namespace Tiny2D;
 
@@ -35,18 +35,35 @@ namespace engine
 
    Engine::Engine()
    {
-      try
+      // Create VM with stack size of 1024 and load string and math libraries
+      ssq::VM vm(1024/*, ssq::Libs::STRING | ssq::Libs::MATH*/);
+
+      try 
       {
-         squall::VMStd vm;
-         vm.dofile(_S("settings"));
+         ssq::Script script = vm.compileFile(_S("settings"));
+         vm.run(script);
 
-         int n0 = vm.call<int>("foo0");
-         std::cout << "**** return value: " << n0 << std::endl;
+         // Find class
+         ssq::Class cls = vm.findClass("Settings");
 
-         int n1 = vm.call<int>("foo1", 7);
-         std::cout << "**** return value: " << n1 << std::endl;
+         ssq::Instance clsInstance = vm.newInstance(cls);
+
+         ssq::Function funcGetScreenWidth = cls.findFunc("GetScreenWidth");
+
+         auto screenWidth = vm.callFunc(funcGetScreenWidth, clsInstance).toInt();
+
+
       }
-      catch (squall::squirrel_error& e) {
+      catch (ssq::CompileException& e) {
+         std::cerr << "Failed to run file: " << e.what() << std::endl;
+      }
+      catch (ssq::TypeException& e) {
+         std::cerr << "Something went wrong passing objects: " << e.what() << std::endl;
+      }
+      catch (ssq::RuntimeException& e) {
+         std::cerr << "Something went wrong during execution: " << e.what() << std::endl;
+      }
+      catch (ssq::NotFoundException& e) {
          std::cerr << e.what() << std::endl;
       }
 

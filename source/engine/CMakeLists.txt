@@ -4,7 +4,8 @@ set(project_name "engine")
 project( ${project_name})			
 
 include_directories(${RMGR_INCLUDE_PATH}) 
-include_directories(${SQUALL_INCLUDE_PATH})
+#include_directories(${SQUALL_INCLUDE_PATH})
+include_directories(${SIMPLE_SQUIRREL_INCLUDE_PATH})
 include_directories(${SQUIRREL_INCLUDE_PATH})
 include_directories(${TINY2D_INCLUDE_PATH})
 include_directories(${INCLUDE_DIRECTORY})
@@ -14,5 +15,5 @@ set ( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON )
 
 add_library( ${project_name} SHARED ${SOURCE} )	
 
-target_link_libraries(${project_name} ${SQUIRREL_LIBRARY} ${SQSTD_LIBRARY} ${TINY2D_LIBRARY})
+target_link_libraries(${project_name} ${SIMPLE_SQUIRREL_LIBRARY} ${SQUIRREL_LIBRARY} ${SQSTD_LIBRARY} ${TINY2D_LIBRARY})
 

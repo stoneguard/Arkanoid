@@ -1,6 +1,6 @@
 message("Searching for external dependecies ...")
 
-set(libraries Squirrel Squall Tiny2D)
+set(libraries Squirrel SimpleSquirrel Tiny2D)
 foreach(library IN LISTS libraries)
 	find_package(${library} REQUIRED)
 endforeach()
